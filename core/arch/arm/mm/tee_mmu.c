@@ -62,6 +62,9 @@
 #define TEE_MMU_UDATA_ATTR		(TEE_MATTR_VALID_BLOCK | \
 					 TEE_MATTR_PRW | TEE_MATTR_URW | \
 					 TEE_MATTR_SECURE)
+#define TEE_MMU_UDATA_RATTR		(TEE_MATTR_VALID_BLOCK | \
+					 TEE_MATTR_PRW | TEE_MATTR_UR | \
+					 TEE_MATTR_SECURE)
 #define TEE_MMU_UCODE_ATTR		(TEE_MATTR_VALID_BLOCK | \
 					 TEE_MATTR_PRW | TEE_MATTR_URWX | \
 					 TEE_MATTR_SECURE)
@@ -397,6 +400,9 @@ TEE_Result tee_mmu_map_param(struct user_ta_ctx *utc,
 		    param_type != TEE_PARAM_TYPE_MEMREF_OUTPUT &&
 		    param_type != TEE_PARAM_TYPE_MEMREF_INOUT)
 			continue;
+		
+		if(param_type == TEE_PARAM_TYPE_MEMREF_INPUT)
+			attr = TEE_MMU_UDATA_RATTR;
 		if (p->memref.size == 0)
 			continue;
 
